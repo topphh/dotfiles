@@ -1,1 +1,1 @@
-My awesome dotfiles
+mY aWesoMe dOtFiLeS
