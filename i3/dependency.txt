@@ -1,0 +1,4 @@
+feh
+bumblebee_status
+brightnessctl
+Meslo fonts
