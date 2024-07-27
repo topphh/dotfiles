@@ -1,0 +1,21 @@
+import = [
+    "~/.config/alacritty/themes/themes/catppuccin_ayu_dark.toml"
+]
+
+live_config_reload = true
+
+[font]
+size = 10.0
+
+[font.normal]
+family = "MesloLGM Nerd Font"
+style = "Regular"
+
+[window]
+decorations = "buttonless"
+dynamic_padding = false
+opacity = 0.85
+
+[window.padding]
+x = 14
+y = 12
