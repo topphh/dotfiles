@@ -66,6 +66,24 @@ return {
                         }
                     }
                 end,
+                ["gopls"] = function()
+                    local lspconfig = require("lspconfig")
+                    lspconfig.gopls.setup {
+                        capabilities = capabilities,
+                        on_attach = function(client, bufnr)
+                            -- Auto-format Go files on save
+                            if client.server_capabilities.documentFormattingProvider then
+                                vim.api.nvim_create_autocmd("BufWritePre", {
+                                    group = vim.api.nvim_create_augroup("GoFormatOnSave", {}),
+                                    buffer = bufnr,
+                                    callback = function()
+                                        vim.lsp.buf.format({ async = false })
+                                    end,
+                                })
+                            end
+                        end,
+                    }
+                end,
             }
         })
 
