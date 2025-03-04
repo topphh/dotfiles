@@ -1,11 +1,11 @@
-import = [
+general.import = [
     "~/.config/alacritty/themes/themes/catppuccin_ayu_dark.toml"
 ]
 
-live_config_reload = true
+general.live_config_reload = true
 
 [font]
-size = 10.0
+size = 8.0
 
 [font.normal]
 family = "MesloLGM Nerd Font"
