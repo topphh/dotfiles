@@ -15,11 +15,13 @@ if [ -n "${SCR[1]}" ]; then
     i3-msg "workspace 7; move workspace to output ${SCR[2]}; exec pavucontrol"
     sleep $DELAY
     i3-msg "workspace 8; move workspace to output ${SCR[2]}; exec firefox --profile ~/.mozilla/firefox/8nmzib4l.default-release"
+    sleep 2
+    i3-msg "workspace 9; move workspace to output ${SCR[2]}; exec chromium"
+    sleep 2
+    i3-msg "workspace 10; move workspace to output ${SCR[2]}; exec slack"
     sleep $DELAY
-    i3-msg "workspace 9; move workspace to output ${SCR[2]}; exec slack"
-    sleep $DELAY
-    i3-msg "workspace 10; move workspace to output ${SCR[2]}; exec firefox --profile ~/.mozilla/firefox/rzt4rova.Work"
-    sleep $DELAY
+	# Portrait
+	#xrandr --output HDMI-1 --rotate left
 else
     # add sigle screen setup
     echo "NO second monitor"
