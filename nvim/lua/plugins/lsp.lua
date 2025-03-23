@@ -25,6 +25,7 @@ return {
         require("fidget").setup({})
         require("mason").setup()
         require("mason-lspconfig").setup({
+            -- Add your new language here as needed, then add a handler
             ensure_installed = {
                 "lua_ls",
                 "gopls",
@@ -103,6 +104,8 @@ return {
             }),
             sources = cmp.config.sources({
                 { name = 'nvim_lsp' },
+                { name = 'vsnip' },
+                { name = 'path' },
                 { name = 'luasnip' }, -- For luasnip users.
             }, {
                 { name = 'buffer' },

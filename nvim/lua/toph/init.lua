@@ -1,6 +1,7 @@
 require("toph.set")
 require("toph.remap")
 require("toph.lazy")
+require("toph.filetype")
 
 vim.g.netrw_banner = 0
 
