@@ -1,8 +1,0 @@
--- -- protobuf indentation space
--- vim.api.nvim_create_autocmd("FileType", {
---   pattern = "proto",
---   callback = function()
---     vim.bo.shiftwidth = 2
---     vim.bo.tabstop = 2
---   end,
--- })

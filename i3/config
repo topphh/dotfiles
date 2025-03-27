@@ -183,7 +183,7 @@ mode "resize" {
 }
 
 # i3lock screen
-bindsym Ctrl+L exec i3lock -c 000000  # Black background
+bindsym $mod+Shift+x exec i3lock -c 000000  # Black background
 
 bindsym $mod+r mode "resize"
 
