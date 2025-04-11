@@ -29,4 +29,19 @@ return {
       -- log_level = 'debug',
     },
   },
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "gopls",
+      },
+    },
+  },
+  {
+    "nvimtools/none-ls.nvim",
+    ft = "go",
+    opts = function()
+      return require "configs.null-ls"
+    end,
+  },
 }
