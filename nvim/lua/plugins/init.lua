@@ -30,14 +30,6 @@ return {
     },
   },
   {
-    "williamboman/mason.nvim",
-    opts = {
-      ensure_installed = {
-        "gopls",
-      },
-    },
-  },
-  {
     "nvimtools/none-ls.nvim",
     ft = "go",
     opts = function()
