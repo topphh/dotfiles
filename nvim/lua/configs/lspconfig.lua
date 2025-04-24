@@ -1,21 +1,19 @@
--- load defaults i.e lua_lsp
+-- Load defaults (nvchad-specific)
 require("nvchad.configs.lspconfig").defaults()
 
 local lspconfig = require "lspconfig"
 local util = require "lspconfig.util"
+local nvlsp = require "nvchad.configs.lspconfig"
 
 local servers = {
   "html",
   "cssls",
-  "gopls",
   "phpactor",
   "vuels",
   "buf_ls",
 }
 
-local nvlsp = require "nvchad.configs.lspconfig"
-
--- lsps with default config
+-- Setup all other servers using default `nvchad` on_attach
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = nvlsp.on_attach,
@@ -24,31 +22,17 @@ for _, lsp in ipairs(servers) do
   }
 end
 
-local ooo = function(client, bufnr)
-  nvlsp.on_attach(client, bufnr)
-  -- map HERE
-  -- vim.keymap.set("n", "gd", "<cmd> Telescope<cr>", { buffer = bufnr })
-  vim.keymap.set("n", "<leader>vca", function()
-    vim.lsp.buf.code_action()
-  end, { buffer = bufnr })
-  vim.keymap.set("n", "gd", function()
-    vim.lsp.buf.definition()
-  end, { buffer = bufnr })
-  vim.keymap.set("n", "<leader>vrn", function()
-    vim.lsp.buf.rename()
-  end, { buffer = bufnr })
-end
-
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
-    on_attach = ooo,
-    on_init = nvlsp.on_init,
-    capabilities = nvlsp.capabilities,
-  }
-end
-
+-- Custom setup for gopls with extra keybindings
 lspconfig.gopls.setup {
-  on_attach = nvlsp.on_attach,
+  on_attach = function(client, bufnr)
+    nvlsp.on_attach(client, bufnr)
+
+    -- Extra keymaps
+    local opts = { noremap = true, silent = true, buffer = bufnr }
+    vim.keymap.set('n', 'gd', function() vim.lsp.buf.definition() end, opts)
+    vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
+  end,
+
   capabilities = nvlsp.capabilities,
   cmd = { "gopls" },
   filetypes = { "go", "gomod", "gowork", "gotmpl" },
@@ -64,9 +48,3 @@ lspconfig.gopls.setup {
   },
 }
 
--- configuring single server, example: typescript
--- lspconfig.ts_ls.setup {
---   on_attach = nvlsp.on_attach,
---   on_init = nvlsp.on_init,
---   capabilities = nvlsp.capabilities,
--- }
