@@ -28,9 +28,7 @@ map("n", "<leader>gb", function()
   gitsigns.blame_line { full = true }
 end)
 map("n", "<leader>glb", gitsigns.toggle_current_line_blame)
-map("n", "<leader>gD", function()
-  gitsigns.diffthis "~"
-end)
+map("n", "<leader>gD", gitsigns.diffthis)
 
 -- Navigation
 map("n", "]g", function()
