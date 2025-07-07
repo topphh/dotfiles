@@ -22,6 +22,12 @@ return {
           vim.lsp.buf.format { bufnr = bufnr }
         end,
       })
+
+      -- Keybinding to format and organize imports
+      vim.keymap.set("n", "<leader>gli", function()
+        vim.lsp.buf.format { bufnr = bufnr }
+      end, { buffer = bufnr, desc = "Go: organize imports" })
+
     end
   end,
 }
