@@ -1,29 +1,27 @@
 -- Load defaults (nvchad-specific)
 require("nvchad.configs.lspconfig").defaults()
 
-local lspconfig = require "lspconfig"
-local util = require "lspconfig.util"
 local nvlsp = require "nvchad.configs.lspconfig"
 
 local servers = {
   "html",
-  "cssls",
+  "cssls", 
   "phpactor",
   "vuels",
   "buf_ls",
 }
 
--- Setup all other servers using default `nvchad` on_attach
-for _, lsp in ipairs(servers) do
-  lspconfig[lsp].setup {
+-- Setup servers using vim.lsp.enable to avoid deprecation warning
+for _, server in ipairs(servers) do
+  vim.lsp.enable(server, {
     on_attach = nvlsp.on_attach,
     on_init = nvlsp.on_init,
     capabilities = nvlsp.capabilities,
-  }
+  })
 end
 
--- Custom setup for gopls with extra keybindings
-lspconfig.gopls.setup {
+-- Custom setup for gopls with extra keybindings using vim.lsp.enable
+vim.lsp.enable("gopls", {
   on_attach = function(client, bufnr)
     nvlsp.on_attach(client, bufnr)
 
@@ -33,10 +31,14 @@ lspconfig.gopls.setup {
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
   end,
 
+  on_init = nvlsp.on_init,
   capabilities = nvlsp.capabilities,
   cmd = { "gopls" },
   filetypes = { "go", "gomod", "gowork", "gotmpl" },
-  root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+  root_dir = function(fname)
+    local util = require "lspconfig.util"
+    return util.root_pattern("go.work", "go.mod", ".git")(fname)
+  end,
   settings = {
     gopls = {
       completeUnimported = true,
@@ -46,5 +48,5 @@ lspconfig.gopls.setup {
       },
     },
   },
-}
+})
 
