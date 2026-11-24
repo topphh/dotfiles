@@ -126,6 +126,22 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
+# Pin workspaces to monitors. Falls back to the primary output when only one is connected.
+workspace $ws1 output primary
+workspace $ws2 output primary
+workspace $ws7 output nonprimary primary
+workspace $ws8 output nonprimary primary
+workspace $ws9 output nonprimary primary
+workspace $ws10 output nonprimary primary
+
+# Send startup apps to their workspaces as soon as their windows appear (used by startup.sh)
+assign [class="Alacritty" instance="^startup-term1$"] $ws1
+assign [class="Alacritty" instance="^startup-term2$"] $ws2
+assign [class="(?i)^pavucontrol$"] $ws7
+assign [class="^firefox$"] $ws8
+assign [class="(?i)^chromium$"] $ws9
+assign [class="(?i)^slack$"] $ws10
+
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
 bindsym $mod+2 workspace number $ws2
@@ -223,3 +239,10 @@ bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
 bindsym Print exec NOW=$(date +%d-%b-%Y_%H-%M-%S) && \
 maim --format png --select > ~/Pictures/screenshots/screenshot_$NOW.png && \
 xclip -selection clip -t image/png ~/Pictures/screenshots/screenshot_$NOW.png
+
+exec --no-startup-id systemctl --user import-environment XDG_SESSION_TYPE && export XDG_SESSION_TYPE=x11
+
+# Clipboard manager (CopyQ): history popup on $mod+c
+exec --no-startup-id copyq
+bindsym $mod+c exec --no-startup-id copyq menu
+for_window [class="copyq"] floating enable

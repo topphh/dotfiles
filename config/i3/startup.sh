@@ -1,28 +1,16 @@
 #!/bin/zsh
+# Launch startup apps. Workspace placement is handled by the
+# `workspace ... output` and `assign` rules in the i3 config, so
+# everything starts in parallel with no sleeps.
 
-# Get the connected monitors and place it in array
-SCR=($(xrandr | awk '/ connected/ {print $1}'))
-DELAY=0.5
+run() { setsid -f "$@" >/dev/null 2>&1 }
 
+# run alacritty --class startup-term1,Alacritty
+# run alacritty --class startup-term2,Alacritty
+run pavucontrol
+run firefox --profile ~/.mozilla/firefox/8nmzib4l.default-release
+run chromium
+run slack
 
-if [ -n "${SCR[1]}" ]; then
-    i3-msg "workspace 1; move workspace to output ${SCR[1]}; exec alacritty"
-    sleep $DELAY
-    i3-msg "workspace 2; move workspace to output ${SCR[1]}; exec alacritty"
-    sleep $DELAY
-    i3-msg "workspace 6; move workspace to output ${SCR[2]}; exec firefox --private-window"
-    sleep $DELAY
-    i3-msg "workspace 7; move workspace to output ${SCR[2]}; exec pavucontrol"
-    sleep $DELAY
-    i3-msg "workspace 8; move workspace to output ${SCR[2]}; exec firefox --profile ~/.mozilla/firefox/8nmzib4l.default-release"
-    sleep 2
-    i3-msg "workspace 9; move workspace to output ${SCR[2]}; exec chromium"
-    sleep 2
-    i3-msg "workspace 10; move workspace to output ${SCR[2]}; exec slack"
-    sleep $DELAY
-	# Portrait
-	#xrandr --output HDMI-1 --rotate left
-else
-    # add sigle screen setup
-    echo "NO second monitor"
-fi
+# run firefox --private-window   # ws6 (disabled)
+# Portrait: xrandr --output HDMI-1 --rotate left
